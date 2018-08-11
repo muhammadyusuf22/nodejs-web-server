@@ -1,5 +1,6 @@
 const express = require('express');
 const hbs = require('hbs');
+const fs = require('fs');
 
 var app = express();
 
@@ -7,34 +8,48 @@ hbs.registerPartials(__dirname + '/views/partials');
 app.set('view enginge', 'hbs'); // --> Set View Engine
 app.use(express.static(__dirname + '/public'));
 
+hbs.registerHelper('getCurrentYear', () => {
+    return new Date().getFullYear();
+}); // -> Create Function agar tidak memanggil getFullYear di tiap url, cukup panggil function ini
+
+hbs.registerHelper('screamIt', (text) => {
+    return text.toUpperCase();
+});
+
+app.use((req, res, next) => {
+    var now = new Date().toString();
+    var log = (`${now}: ${req.method} ${req.url}`);
+    console.log(log);
+    fs.appendFile('server.log', log + '\n', (err) => {
+        if (err) {
+            console.log('Unable to append to server.log.');
+        }
+    })
+    next();
+})
+
+// app.use((req, res, next) => {
+//     res.render('maintenance.hbs');
+// }) // -> For Handling if Maintenance
+
 app.get('/', (req, res) => {
-    // res.send('HELLO EXPRESS!')
-    // res.send('<h1>HELLO EXPRESS!</h1>')
-    // res.send({
-    //     name: 'Muhammad Yusuf',
-    //     like: ['Coding', 'Copy']
-    // });
     res.render('home.hbs', {
         pageTitle: 'Home Page',
         welcomeMessage: 'Wellcome to My Website',
-        currentYear: new Date().getFullYear()
     })
-})
+});
 
 app.get('/about', (req, res) => {
-    // res.send('About Page'); // -> hanya mencetak About Page pada Browser
-    //res.render('about.hbs'); // -> Render page About.hbs pada Folder views
     res.render('about.hbs', {
         pageTitle: 'About Page',
-        currentYear: new Date().getFullYear()
     });
-})
+});
 
 //   /bad - send back json with errorMessage
 app.get('/bad', (req, res) => {
     res.send({
         errorMessage: 'Unable to handle request'
     })
-})
+});
 
 app.listen(3000);
