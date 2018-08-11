@@ -3,6 +3,7 @@ const hbs = require('hbs');
 
 var app = express();
 
+hbs.registerPartials(__dirname + '/views/partials');
 app.set('view enginge', 'hbs'); // --> Set View Engine
 app.use(express.static(__dirname + '/public'));
 
@@ -24,7 +25,7 @@ app.get('/about', (req, res) => {
     // res.send('About Page'); // -> hanya mencetak About Page pada Browser
     //res.render('about.hbs'); // -> Render page About.hbs pada Folder views
     res.render('about.hbs', {
-        pageTitle: 'About From server.js',
+        pageTitle: 'About Page',
         currentYear: new Date().getFullYear()
     });
 })
