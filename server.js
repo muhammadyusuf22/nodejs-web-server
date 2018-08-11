@@ -3,16 +3,21 @@ const hbs = require('hbs');
 
 var app = express();
 
-app.set('view enginge', 'hbs');
+app.set('view enginge', 'hbs'); // --> Set View Engine
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
     // res.send('HELLO EXPRESS!')
     // res.send('<h1>HELLO EXPRESS!</h1>')
-    res.send({
-        name: 'Muhammad Yusuf',
-        like: ['Coding', 'Copy']
-    });
+    // res.send({
+    //     name: 'Muhammad Yusuf',
+    //     like: ['Coding', 'Copy']
+    // });
+    res.render('home.hbs', {
+        pageTitle: 'Home Page',
+        welcomeMessage: 'Wellcome to My Website',
+        currentYear: new Date().getFullYear()
+    })
 })
 
 app.get('/about', (req, res) => {
