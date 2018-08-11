@@ -28,11 +28,10 @@ npm install hbs@4.0.0 --save
 1. Create Heroku Account [https://heroku.com/]
 
 2. Download and install Heroku CLI [https://devcenter.heroku.com/articles/heroku-cli]
-    - For Mac
+    ->> For Mac
     ```bash
     brew install heroku/brew/heroku
     ```
-
 2. Login Heroku, Setelah itu lakukan login ke Heroku melalui terminal dengan perintah berikut :
     ```bash
     heroku login
